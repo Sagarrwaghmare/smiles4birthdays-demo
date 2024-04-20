@@ -18,22 +18,5 @@
     </div>
 
 
-    <!-- <ul class="flex flex-col md:flex-row 
-        justify-center
-        mx-20 my-10 space-x-4
-        text-center
-      ">
-
-        <li class="my-1"> <a href="#">About</a> </li>
-        <li class="my-1"> <a href="<?=base_url()?>">How it works</a> </li>
-        <li class="my-1"> <a href="upcoming">Upcoming Birthdays</a></li>
-        <li class="my-1"> <a href="celebrated">Birthdays Celebrated</a></li>
-        
-        <li class="my-1">
-            <a href="<?=base_url('donate')?>">Donate</a>
-        </li>
-    </ul> -->
-
-
 </nav>
 

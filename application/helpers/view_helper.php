@@ -5,6 +5,7 @@ function upcomingBirthday($name,$birthdate,$profile_pic,$sponsored,$id){
 
     $bgclass = "";
     if($sponsored){
+        // $bgclass = "bg-[#f5ab35]";
         $bgclass = "bg-pink-200";
     }
 
@@ -18,7 +19,7 @@ function upcomingBirthday($name,$birthdate,$profile_pic,$sponsored,$id){
 
         <div class='card-innter p-4 '>
 
-            <img src='assets/images/profile_pictures/$profile_pic' alt='Art1.jpg' width=230
+            <img src='".base_url("assets/images/profile_pictures/".$profile_pic)."' alt='Art1.jpg' width=230
             style='height:198px;'
             class='rounded-md'
             >
@@ -44,7 +45,7 @@ function celebratedBirthdays($name,$birthdate,$profile_pic,$sponsored_by,$id){
 
         <div class='card-innter p-4 '>
 
-            <img src='assets/images/profile_pictures/$profile_pic' alt='Art1.jpg' width=230
+            <img src='".base_url("assets/images/profile_pictures/".$profile_pic)."' alt='Art1.jpg' width=230
             style='height:198px;'
             class='rounded-md'
             >
@@ -56,6 +57,13 @@ function celebratedBirthdays($name,$birthdate,$profile_pic,$sponsored_by,$id){
 
         </div>
     </div></a>";
+}
+
+
+function divideDataByOffset(&$arr,$offset,$limit){
+    $output = array_slice($arr,$offset,$limit);
+
+    return $output;
 }
 
 

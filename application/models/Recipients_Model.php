@@ -28,6 +28,13 @@ class Recipients_Model extends CI_Model{
         $query = $this->db->get_where('recipients',array('sponsored'=>0));
         return $query->result_array();
     }
+
+    public function get_all_celebrated(){
+        $this->db->order_by('updated_at',"DESC");
+        $query = $this->db->get_where('recipients',array('celebrated'=>1));
+        return $query->result_array();
+    }
+
 // Searching
 
 // Editing

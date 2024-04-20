@@ -18,7 +18,7 @@
 <main class="m-4">
     <h2 class="text-2xl font-bold text-center">Donate Now</h2>
 
-    <form action="main/process_donation_form" method="POST"
+    <form action="<?=base_url('main/process_donation_form')?>" method="POST"
     class="flex flex-col m-10 space-y-4">
 
         <label for="name" class="flex flex-col sm:flex-row">
@@ -148,7 +148,9 @@
 
 
         <div >
-            <input type="submit" value="Donate">
+            <input class="donate-btn bg-[#f5ab35] text-white 
+            py-2 px-3 rounded-[5px]"
+            type="submit" value="Donate">
         </div>
 
         

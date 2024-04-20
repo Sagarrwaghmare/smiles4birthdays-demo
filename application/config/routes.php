@@ -55,7 +55,12 @@ $route['translate_uri_dashes'] = FALSE;
 
 // Pages
 $route['upcoming'] = 'main/upcoming_birthdays';
+$route['upcoming/(:num)'] = 'main/upcoming_birthdays/$1';
+
 $route['celebrated'] = 'main/celebrated_birthdays';
+$route['celebrated/(:num)'] = 'main/celebrated_birthdays/$1';
+
+
 $route['donate'] = 'main/donate';
 $route['donate/(:num)'] = 'main/donate/$1';
 $route['profile'] = 'main/child';

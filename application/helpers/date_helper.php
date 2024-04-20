@@ -29,6 +29,53 @@ function newDateArr(&$arr){
     return $arr;
 }
 
+function sortbySecDESC(&$new_data){
+    $all_new_secs = array();
+        foreach ($new_data as $key => $value) {
+            $all_new_secs[$key] = $value['new_date_seconds'];
+        }
+
+        array_multisort($all_new_secs,SORT_DESC,SORT_NUMERIC,$new_data);
+
+}
+
+function combinedDatesArrayDesc(&$data,$todays_date_seconds){
+
+    $data = newDateArr($data);
+    
+    // sort by seconds.
+    // so we have a ascending list of birthday's irrelevant of years.
+    sortbySecDESC($data);
+
+
+    $after_dates = array();
+    $behind_dates = array();
+
+    foreach ($data as  $value) {
+        if($todays_date_seconds < $value['new_date_seconds'])
+        {
+            
+        // // print_r($value['id']);
+        //     echo "\t";            
+        //     echo ($value['id'])."\t" .$value['birthdate'];
+        //     echo "<br><br>";            
+            
+            array_push($after_dates,$value);
+                
+        }else{
+            array_push($behind_dates,$value);
+        }
+    }
+
+    $combined_arr = array_merge($behind_dates,$after_dates);
+
+    return $combined_arr;
+}
+
+
+
+
+
 function sortBySec(&$new_data){
     $all_new_secs = array();
         foreach ($new_data as $key => $value) {

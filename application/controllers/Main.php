@@ -12,6 +12,8 @@ class  Main  extends CI_Controller {
         $this->load->helper('date_helper');
         $this->load->helper('view_helper');
     
+
+        $this->load->library('pagination');
         // class="mx-5 my-10"
     }
 
@@ -28,8 +30,12 @@ class  Main  extends CI_Controller {
         $today_in_sec = strtotime($today);
         $upcoming_birthdays = combinedDatesArray($recipients,$today_in_sec);
 
+
+        $celebrated = $this->Recipients_Model->get_all_celebrated();
         // celebrated birthdays
-        $celebrated_birthdays = $this->Recipients_Model->get_all_sponsored();
+        $celebrated_birthdays = combinedDatesArrayDesc($celebrated,$today_in_sec);
+        // $celebrated_birthdays = $this->Recipients_Model->get_all_sponsored();
+        
 
 
         $data = array(
@@ -43,7 +49,7 @@ class  Main  extends CI_Controller {
         $this->load->view("main/template/footer");
     }
     
-    public function upcoming_birthdays(){
+    public function upcoming_birthdays($page = null){       
         // fetching data from database 
         $recipients = $this->Recipients_Model->get_all();
 
@@ -54,10 +60,29 @@ class  Main  extends CI_Controller {
 
         $upcoming_birthdays = combinedDatesArray($recipients,$today_in_sec);
         
-        $data=array(
-            'upcoming_birthdays'=>$upcoming_birthdays
-        );
     
+
+
+        // Pagination
+        $config['base_url'] = 'http://localhost/main/OLD/Work/Craft/project1/website/site-demo/smiles4birthdays-demo/upcoming';
+        $config['total_rows'] = sizeof($upcoming_birthdays);
+        $limit = 6;
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+        // Pagination
+
+
+
+        // DATA 
+        $data=array(
+            'upcoming_birthdays'=>divideDataByOffset($upcoming_birthdays,$page,$limit)
+            // 'upcoming_birthdays'=>$upcoming_birthdays
+        );
+
+        $this->load->view("main/template/header",array("page_title"=>"Upcoming Birthdays"));
+        $this->load->view("main/content/upcoming",$data);
+        $this->load->view("main/template/footer");
         
         // Dates are fetched from database
         // new columns are added in database with birthdate with current year, and the new birthdate in seconds
@@ -65,19 +90,33 @@ class  Main  extends CI_Controller {
         // lesser seconds are added behind the combined array and more seconds after.
         // The combined array data is similar but sorted based of current date
         // $comArr = combinedDatesArray($data,$today_in_sec);
-
-        $this->load->view("main/template/header",array("page_title"=>"Upcoming Birthdays"));
-        $this->load->view("main/content/upcoming",$data);
-        $this->load->view("main/template/footer");
     }
     
-    public function celebrated_birthdays(){
-      
+    public function celebrated_birthdays($page= null){
+
+        date_default_timezone_set("Asia/Calcutta");
+        $today = date('m/d/Y h:i:s a', time());
+        $today_in_sec = strtotime($today);
+
+        $celebrated = $this->Recipients_Model->get_all_celebrated();
         // celebrated birthdays
-        $celebrated_birthdays = $this->Recipients_Model->get_all_sponsored();
+        $celebrated_birthdays = combinedDatesArrayDesc($celebrated,$today_in_sec);
+
+
+        
+        $config['base_url'] = 'http://localhost/main/OLD/Work/Craft/project1/website/site-demo/smiles4birthdays-demo/celebrated';
+        $config['total_rows'] = sizeof($celebrated_birthdays);
+        $limit = 6;
+        $config['per_page'] = $limit;
+
+        $this->pagination->initialize($config);
+        
+        
+
+        // $celebrated_birthdays = $this->Recipients_Model->get_all_celebrated();
 
         $data = array(
-            'celebrated_birthdays'=>$celebrated_birthdays,
+            'celebrated_birthdays'=>divideDataByOffset($celebrated_birthdays,$page,$limit),
         );
 
         // CHANGE PAGINTAION IN UPCOMING AND CELEBRATED// REMOVE IT OUT OF GRID OR IT'S CONSIDERED GRID ELEMENT AND CHANGES POSITON
@@ -117,37 +156,69 @@ class  Main  extends CI_Controller {
     }
 
     public function child($id = null){
-        
         if($id != null){
             $decrypt_id = numhash($id);
             $data = $this->Recipients_Model->get_by_id($decrypt_id);
 
             $name = $data[0]['name'];
-            $sponsored = $data[0]['sponsored'];
+            $celebrated = $data[0]['celebrated'];
+
+            $photos_folder = "assets/images/recipients/".$data[0]['photos_folder']."/personal_photos"; //personal_photos
+            $birthday_photos = "assets/images/recipients/".$data[0]['birthday_photos']."/celebration_photos"; //celebration_photos
+            // PFP Path: asstes/images/profile_pictures/
+            // IMG Folder: asstes/images/recipients/${FOLDER ID NAME}/celebrated|personal
+
+
+            
+            function returnFileArray($photo_dir){
+                $dir = $photo_dir;
+                $file_array = array();
+                
+                if (is_dir($dir)){
+                    if ($dh = opendir($dir)){
+                        while (($file = readdir($dh)) !== false){
+                            // echo "filename:" . $file ."<br>";
+                                array_push($file_array,$file);
+                            
+                        }
+                    closedir($dh);
+                    }
+                }
+
+                $file_array = array_slice($file_array,2);
+                return $file_array;
+            }
+
+            $photos_folder_array = returnFileArray($photos_folder);
+            $birthday_photos_array = returnFileArray($birthday_photos);
+
+            // var_dump(,);
+            // var_dump($photos_folder,$photos_folder_array,$birthday_photos,$birthday_photos_array);
+
+
 
             $data = array(
-                "data"=>$data[0]
+                "data"=>$data[0],
+                "photos_folder_array"=>$photos_folder_array,
+                "birthday_photos_array"=>$birthday_photos_array,
             );
-            
+            // print_r($data);
+
             $this->load->view("main/template/header",array('page_title'=>"$name"));
 
-            // add a new column, (flag) celebrated
+            if($celebrated == 1){
 
-            //  if not sponsored go to upcoming page
-            // if sponsored but not celebrated, upcoming page
-            // if celebrated == true go to celebrated page
-            // 
-            // celebrated would only become true if it's sponsored.
-            print_r($sponsored);
-            if($sponsored == 1){
-                
+
+
+
+
                 $this->load->view("main/content/celebrated-inner",$data);
 
             }else{
+
                 $this->load->view("main/content/upcoming-inner",$data);
             }
             // $this->load->view("main/content/profile",$data);
-
 
             $this->load->view("main/template/footer");            
         }else{
