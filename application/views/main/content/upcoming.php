@@ -2,8 +2,8 @@
     <div class="upcomingBirthdays flex flex-col justify-items-center items-center">
         <h2 class="text-center font-semibold text-2xl mb-5">Upcoming Birthdays</h2>
 
-        <div class="card-container grid sm:grid-cols-2 md:grid-cols-3 "
-        style="max-width: 800px;"
+        <div class="card-container grid sm:grid-cols-2 md:grid-cols-3 w-full"
+        style="max-width: 1200px;"
         >
             <?php 
                 foreach ($upcoming_birthdays as $key => $value) {

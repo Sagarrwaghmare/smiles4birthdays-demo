@@ -8,10 +8,12 @@
         </div>
         <ul class="p-5  space-y-2">
             <li><?=$data['name']?></li>
-            <li>Sponsored By <?=$data['sponsored']?></li>
+            <li>Sponsored By <?=$donation_arr[0]['name']?></li>
             <li><span>Birthdate: <?=$data['birthdate']?></span> <span>Age: <?=calculateAge($data['birthdate'])?></span> <span>Residence: <?=$data['address']?></span></li>
             <li><span>Father Occupation: <?=$data['father_occupation']?></span> <span>Mother Occupation: <?=$data['mother_occupation']?></span></li>
             <li><span>Yearly Income: <?=$data['household_income']?></span> <span>Birthday Wish: <?=$data['wish']?></span></li>
+            <li>Bio: <?=$data['bio']?></li>
+
         </ul>
     </div>
 
@@ -34,7 +36,9 @@
 
                 <?php 
                 foreach ($birthday_photos_array as $key => $value) {
-                    echo "<img src='../assets/images/recipients/$data[birthday_photos]/celebration_photos/$value'  data-imgName='Art4.jpg' alt='' class='w-[230px] h-[198px] imgSlider'>";
+                    if($value != "index.html"){
+                        echo "<img src='../assets/images/recipients/$data[birthday_photos]/celebration_photos/$value'  data-imgName='Art4.jpg' alt='' class='w-[230px] h-[198px] imgSlider'>";
+                    }
                 }
                 ?>
 

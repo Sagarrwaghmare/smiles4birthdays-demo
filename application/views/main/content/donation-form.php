@@ -7,12 +7,6 @@
 
 <?php 
 
-// echo $default;
-
-// print_r($recipient);
-
-// print_r($non_sponsoreds);
-
 ?>
 
 <main class="m-4">
@@ -40,6 +34,15 @@
         <label for="email" class="flex flex-col sm:flex-row">
             <h4 class="w-[100px]">Email: </h4>
             <input type="text" name="email" id="email" placeholder="">
+        </label>
+
+        <label for="gender" class="flex flex-col sm:flex-row">
+            <h4 class="w-[100px]">Gender: </h4>
+            <!-- <input type="text" name="gender" id="gender" placeholder=""> -->
+            <select name="gender" id="">
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+            </select>
         </label>
         
         <label for="donateTo" class="flex flex-col sm:flex-row">
@@ -101,6 +104,18 @@
             </div>
             
         </label>
+        
+        <label for="pan" class="flex flex-col sm:flex-row">
+            <h4 class="w-[100px]">Pan no: </h4>
+            <input type="text" name="pan" id="pan" placeholder="">
+        </label>
+
+        <!-- <label for="tds" class="flex flex-col sm:flex-row">
+            <h4 class="w-[100px]">Tds Status: </h4>
+            <input type="text" name="tds" id="tds" placeholder="">
+        </label> -->
+
+
 
         
         <label for="contactus" class="flex flex-col sm:flex-row">
@@ -111,7 +126,7 @@
         </label>
         
         <label for="donationAmount" class="flex flex-col sm:flex-row">
-            <h4 class="">Do you want to Video Call/ Attend the Birthday Celebration? </h4>
+            <h4 class="">Do you want to Video Call?</h4>
 
             <!-- <input type="text" name="donationAmount" id="donationAmount" placeholder=""> -->
 
@@ -157,6 +172,6 @@
 
 
     </form>
-
-
 </main>
+
+

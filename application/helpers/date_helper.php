@@ -133,10 +133,33 @@ function combinedDatesArray(&$data,$todays_date_seconds){
 // Then a function can be put which check the new_records that are after currentDate put on view.
 // if they are under a certain number then then the new records appened back the array - the above dates that were put first
 
+function monthNoToMonthName($no){
+    
+    $months = array(
+        "1"=>"Jan",
+        "2"=>"Feb",
+        "3"=>"March",
+        "4"=>"April",
+        "5"=>"May",
+        "6"=>"June",
+        "7"=>"July",
+        "8"=>"Aug",
+        "9"=>"Sept",
+        "10"=>"Oct",
+        "11"=>"Nov",
+        "12"=>"Dec",
+    );
+
+    return $months[$no];
+}
 
 function changeToMonthlyFormate($string){
+    // print_r($string);
     list($year,$month,$day) = explode('-',$string);
     
+    if($month == "00"){
+        return "1th Jan";
+    }
     $months = array(
         "01"=>"Jan",
         "02"=>"Feb",

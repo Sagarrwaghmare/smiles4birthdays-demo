@@ -3,33 +3,28 @@
 <main class="mx-5 my-10  flex flex-col">
 
 
-    <div class="video flex self-center 
-    flex-col md:flex-row justify-center items-center "
-    style="max-width: 800px;">
-        <iframe width="400" height="250"
-        src="https://www.youtube.com/embed/tgbNymZ7vqY">
-        </iframe>
-        <div class="about p-5 flex  flex-col ">
-            <h2 class="text-center  font-semibold text-2xl my-5">About smiles4birthdays</h2>
-
-                <p>CFTI weaves dreams into reality, offering wings to aspirations and breaking barriers that hinder progress. Through our multifaceted initiatives, we strive to make a difference in the society and leave those whom we serve with a trail of hope, empowerment and joy.</p>
-                <!-- <p>We were established in 2009 and are registered under the Indian Trusts Act, 1882. Our trustees are young passionate individuals from diverse backgrounds. It includes an MD of a prominent newspaper, businessmen, and foreign-educated graduates. With a committed team of 700-plus volunteers, we primarily engage in the fields of education and women empowerment. We also undertake activities to alleviate poverty, and provide disaster-relief and medical aid, etc.</p> -->
-                <p>CFTI boasts of a team of like-minded people who believe that change begins when individuals take responsibility for their fellow citizens and nation at large. We are committed to transforming rural India towards a better, healthier and happier tomorrow.</p>
-        </div>
-    </div>
+    
 
 
     <div class="upcomingBirthdays flex flex-col justify-items-center items-center">
-        <h2 class="text-center font-semibold text-2xl my-10">Upcoming Birthdays</h2>
 
-        <div class="card-container grid sm:grid-cols-2 md:grid-cols-3 "
-        style="max-width: 800px;"
+        <div class="upcoming-progress-bar bg-black h-1.5 w-4/5">
+            <div class="upcoming-progress bg-[#f5ab35] h-1.5"
+            style="width:20%;"></div>
+        </div>
+
+        <h2 class="text-center font-semibold text-2xl mt-5  ">Upcoming Birthdays</h2>
+
+        <p class="text-center text-lg font-thin my-5 text-slate-500">Would You Like To Be The Reason Of Their Happiness?</p>
+
+        <div class="card-container upcoming-card-container grid sm:grid-cols-2 md:grid-cols-3 w-full"
+        style="max-width: 1200px;"
         >
 
             <?php 
                 $i=0;
                 foreach ($upcoming_birthdays as $key => $value) {
-                    if ($i == 6) {break;}
+                    // if ($i == 6) {break;}
                     $i++;
 
                     echo upcomingBirthday($value['name'],changeToMonthlyFormate($value['birthdate']),$value['profile_pic'],$value['sponsored'],numhash($value['id']));
@@ -64,19 +59,27 @@
 
 
     
-    <div class="upcomingBirthdays flex flex-col justify-items-center items-center">
+    <div class="celebratedBirthdays flex flex-col justify-items-center items-center">
+        
+        <div class="celebrated-progress-bar bg-black h-1.5 w-4/5">
+            <div class="celebrated-progress bg-[#f5ab35] h-1.5"
+            style="width:20%;"></div>
+        </div>
+
         <h2 class="text-center  font-semibold text-2xl my-10">Celebrated Birthdays</h2>
 
-        <div class="card-container grid sm:grid-cols-2 md:grid-cols-3 "
-        style="max-width: 800px;"
+        <div class="card-container celebrated-card-container grid sm:grid-cols-2 md:grid-cols-3 w-full"
+        style="max-width: 1200px;"
         >
                 
             <?php 
                 $i=0;
                 foreach ($celebrated_birthdays as $key => $value) {
-                    if ($i == 3) {break;}
+                    // if ($i == 6) {break;}
+
+                    $name = idToNameDonations($donations,$value['sponsored_by']);
                     
-                    echo celebratedBirthdays($value['name'],changeToMonthlyFormate($value['birthdate']),$value['profile_pic'],"Juluis Prapati",numhash($value['id']));
+                    echo celebratedBirthdays($value['name'],changeToMonthlyFormate($value['birthdate']),$value['profile_pic'],$name,numhash($value['id']));
                     
                     $i++;
                 }
@@ -102,3 +105,108 @@
 </main>
 
 <!-- </div> -->
+
+
+<script>
+    $(document).ready(function () {
+        let upcomingCards = $(".upcoming-birthday-card")
+        let celebratedCards = $(".celebrated-birthday-card")
+
+        let start = 1
+        let upcomingLimit =   (Math.round(upcomingCards.length/3)) +1
+        let celebratedLimit = (Math.round(celebratedCards.length/3)) +1
+        // console.log(upcomingLimit,celebratedLimit)
+        // let limit = Math.round(elements.length/3)
+        // console.log(start,limit)
+
+        // let elements = [1,2,3,4,5,6]
+        // 1,2,3,,,4,5,6
+        // 1,2
+        // if 1 then 3x1 = 3 :: range(3-3,3) = (0,3)
+        // if 2 then 3x2 = 6 :: range(6-3,6) = (3,6)
+        // let elements = [1,2,3,4,5,6]
+        function setCardsCelebrated(constant){
+            // let elements = $(".celebrated-birthday-card")
+            let globalCelebratedConstant = constant
+
+            let rangeEnd = globalCelebratedConstant*3 
+            let rangeStart = rangeEnd - 3
+            
+            let content = ""
+            for (let i = 0; i < celebratedCards.length; i++) {
+    
+                if(i >= rangeStart && i < rangeEnd){
+                    content += $(celebratedCards[i])[0].outerHTML
+                    // console.log(i,$(celebratedCards[i]).attr('data-id'),rangeStart,rangeEnd);
+                }
+            }
+    
+            $(".celebrated-card-container").html(content);
+
+            
+            let progress = (constant*100)/celebratedLimit
+            progress = 50
+
+            $(".celebrated-progress").attr("style", "width:"+progress+"%;");
+        }
+        
+        function setCardsUpcoming(constant){
+            // let elements = $(".upcoming-birthday-card")
+            let globalCelebratedConstant = constant
+
+            let rangeEnd = globalCelebratedConstant*3 
+            let rangeStart = rangeEnd - 3
+            
+            let content = ""
+            for (let i = 0; i < upcomingCards.length; i++) {
+    
+                if(i >= rangeStart && i < rangeEnd){
+                    content += $(upcomingCards[i])[0].outerHTML
+                    // console.log(i,$(upcomingCards[i]).attr('data-id'),rangeStart,rangeEnd);
+                }
+            }
+    
+            $(".upcoming-card-container").html(content);
+            
+            let progress = (constant*100)/upcomingLimit
+            progress = 50
+            // 100 = 17
+            // x     c
+            $(".upcoming-progress").attr("style", "width:"+progress+"%;");
+        }
+
+
+
+        
+        setCardsCelebrated(1)
+        setCardsUpcoming(1)
+        let n = 2
+        let m = 2
+
+        
+        setInterval(() => {
+
+            if(n > upcomingLimit){
+                n = 1
+            }
+            if(m > celebratedLimit){
+                m = 1
+            }
+
+            // setCardsCelebrated(m) 
+            //   setCardsUpcoming(n)
+            //   console.log(n,m);
+              n++
+              m++
+        }, 3000);
+
+        
+
+
+
+
+
+        
+
+    });
+</script>

@@ -3,7 +3,7 @@
 <section>
     <div class="upcoming-table">
 
-        <h2>Upcoming Birthdays</h2>
+        <h2 class="text-2xl font-semibold">Upcoming Birthdays</h2>
 
         <table class="w-full">
             <thead class=" bg-slate-200">
@@ -15,18 +15,36 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>ID</td>
-                    <td>Name</td>
-                    <td>Birthdate</td>
-                    <td>Location</td>
-                </tr>
+
+                <?php
+                $i = 0;
+                foreach ($upcoming_birthdays as $key => $value) {
+                    if($i == 3){ break;}
+                    echo "
+                        <tr>
+                            <td>$value[id]</td>
+                            <td>$value[name]</td>
+                            <td>$value[birthdate]</td>
+                            <td>$value[address]</td>
+                        </tr>
+                    ";
+                    $i++;
+                }?>
+
             </tbody>
         </table>
+
+
     </div>
+
+
+
+
+
+
     <div class="donations-table">
 
-        <h2>Donations</h2>
+        <h2 class="text-2xl font-semibold">Donations</h2>
 
         <table class="w-full">
             <thead class=" bg-slate-200">
@@ -38,17 +56,33 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Date</td>
-                    <td>Name</td>
-                    <td>Recipients</td>
-                    <td>Amount</td>
-                </tr>
+
+                <?php 
+                $i = 0;
+                
+                foreach ($donations as $key => $value) {
+                    if($i == 3){break;}
+                    echo "
+                    <tr>
+                        <td>$value[donation_date]</td>
+                        <td>$value[name]</td>
+                        <td>$value[donated_for]</td>
+                        <td>$value[amount]</td>
+                    </tr>
+                    ";
+                    $i++;
+                }?>
             </tbody>
         </table>
 
     </div>
 
+    
+    <div class="backup">
+            <h2 class="text-2xl font-semibold">Backup</h2>
+
+            <a href="<?=base_url('admin/export')?>" class="p-2 bg-red-600 ">Backup Download</a>            
+    </div>
 </section>
 
 </section>

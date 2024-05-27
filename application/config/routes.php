@@ -69,7 +69,8 @@ $route['profile/(:num)'] = 'main/child/$1';
 
 // Auth
 $route['admin'] = 'admin';
-$route['login'] = 'admin/login';
+$route['login'] = 'main/login';
+$route['logout'] = 'main/logout';
 
 // Functions
 $route['sponsor/(:any)'] = "main/sponsor/$1";

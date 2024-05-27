@@ -23,9 +23,12 @@
                     
                 <?php
                     foreach ($photos_folder_array as $key => $value) {
-                        echo "<img src='../assets/images/recipients/$data[photos_folder]/personal_photos/$value' 
-                        alt='' class='imgSlider'
-                        style='width:100%;height:100%;'>";                    }
+                        if($value != "index.html"){
+                            echo "<img src='../assets/images/recipients/$data[photos_folder]/personal_photos/$value' 
+                            alt='' class='imgSlider'
+                            style='width:100%;height:100%;'>";
+                        }
+                    }
                 ?>
 
 
@@ -60,17 +63,33 @@
 
         <ul class="p-5">
             <li><?=$data['name']?></li>
+
+
+            <?php 
+            $sponsor_name = "Not sponsored";
+            $display = "display:none";
+            if($data['sponsored'] == 1){
+                $display = "display:block";
+                $sponsor_name = $donation_arr[0]['name'];
+            }
+            ?>
+            
+            <li style="<?=$display?>">Sponsored By: <?=$sponsor_name?></li>
+
             <li class=" space-x-3"><span>Birthdate: <?=$data['birthdate']?></span><span>Age: <?=calculateAge($data['birthdate'])?></span></li>
             <li>Residence: <?=$data['address']?></li>
             <li>Father's Occupation: <?=$data['father_occupation']?></li>
             <li>Mother Occupation: <?=$data['mother_occupation']?></li>
             <li>Yearly Income: <?=$data['household_income']?></li>
             <li>Birthday Wish: <?=$data['wish']?></li>
+            <li>Bio: <?=$data['bio']?></li>
+
             <li class=" my-3 ">
+
                 <a href="../donate/<?=numhash($data['id'])?>"
                     class="p-2 donate-btn bg-[#f5ab35] text-white 
                         py-2 px-3 rounded-[5px]"
-                    <?php if($data['sponsored'] == 1){echo "style='pointer-events: none'";}; ?>
+                    <?php if($data['sponsored'] == 1){echo "style='display: none'";}; ?>
                     >Donate</a>
             </li>
             
